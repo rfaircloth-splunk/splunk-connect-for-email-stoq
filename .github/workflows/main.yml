@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - name: Docker Publish
+        uses: zenato/docker-action@v1.0.0
+        with:
+          username: rfaircloth-splunk
+          password: ${{ secrets.GITHUB_TOKEN }}
+          repository: rfaircloth-splunk/splunk-connect-for-email-stoq/splunk-connect-for-email-stoq
+          registry: docker.pkg.github.com
+          tag: latest  
