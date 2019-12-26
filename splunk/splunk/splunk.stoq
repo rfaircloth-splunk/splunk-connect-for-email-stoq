@@ -1,0 +1,49 @@
+#   Copyright 2019 Splunk
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+[Core]
+Name = splunk
+Module = splunk
+
+[Documentation]
+Author = Ryan Faircloth
+Version = 2.0.0
+Website = https://github.com/splunk/splunk-connect-for-email
+Description = Save results to Splunk
+
+[options]
+# What is the hostname/ip and port of the Splunk server?
+#
+# Examples:
+#
+#
+splunk_host = splunk
+splunk_token = GUID
+splunk_port = 8088
+splunk_tls = True
+
+# Index name results should be inserted into
+# Default: stoq
+splunk_index = stoq
+
+# How long should we wait before it times out?
+# Default: 60
+splunk_timeout = 60
+
+# Should we try again if an operation fails?
+splunk_retry = True
+
+# How many time should we try an operation if a timeout occurs?
+# Default: 10
+splunk_max_retries = 10

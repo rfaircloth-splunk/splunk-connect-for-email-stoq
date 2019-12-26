@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d29b61b9-5a73-48ba-812b-8fa20eea1624" name="Default Changelist" comment="" />
+    <list default="true" id="d29b61b9-5a73-48ba-812b-8fa20eea1624" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/splunk/MANIFEST.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/splunk/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/splunk/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/splunk/setup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/splunk/splunk/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/splunk/splunk/splunk.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/splunk/splunk/splunk.stoq" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yara/yara.rules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entrypoint.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/postfix/main.cf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/postfix/master.cf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/rsyslog.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/supervisord.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/goss.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stoqsink.py" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1VR1psJ24LZ4yCddkgJBpVpnA6e" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -17,6 +44,10 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/stoq/splunk" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -33,6 +64,16 @@
       </list>
     </option>
   </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -43,11 +84,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1577201279916</updated>
-      <workItem from="1577201283465" duration="5309000" />
+      <workItem from="1577201283465" duration="25901000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

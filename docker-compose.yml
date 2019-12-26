@@ -1,0 +1,72 @@
+#Splunk Connect for Syslog (SC4S) by Splunk, Inc.
+#
+#To the extent possible under law, the person who associated CC0 with
+#Splunk Connect for Syslog (SC4S) has waived all copyright and related or neighboring rights
+#to Splunk Connect for Syslog (SC4S).
+#
+#You should have received a copy of the CC0 legalcode along with this
+#work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+version: "3.7"
+services:
+  mail:
+    image: splunk-connect-for-email:latest
+    build:
+      context: .
+    links:
+      - stoq
+    hostname: postfix
+    environment:
+      - SERVER_HOSTNAME=${SERVER_HOSTNAME}
+    volumes:
+      - stoq-mailsink:/var/mailsink
+
+  stoq:
+
+    hostname: stoq
+    build: stoq
+#When this is enabled test_common will fail
+    command: |
+      run -P dirmon -C splunk -s smtp --plugin-opts
+      dirmon:source_dir=/var/mailsink
+      filedir:results_dir=/home/stoq/results
+      smtp:always_dispatch=hash,yara,exif,xorsearch,symhash,pecarve,trid,peinfo,xdpcarve,tika,mraptor,ole,tnef,entropy,rtf,lief,decompress,mimetype
+      smtp:archive_attachments=False
+      smtp:extract_iocs=True
+      splunk:splunk_host=$SPLUNK_HEC_HOST
+      splunk:splunk_token=$SPLUNK_HEC_TOKEN
+      splunk:splunk_port=8088
+      splunk:splunk_index=$SPLUNK_HEC_INDEX
+      yara:worker_rules=/home/stoq/yara/yara.rules
+      yara:dispatch_rules=/home/stoq/yara/yara.rules
+    links:
+      - splunk
+    environment:
+      - SPLUNK_HEC_HOST=${SPLUNK_HEC_HOST}
+      - SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
+      - SPLUNK_HEC_PORT=${SPLUNK_HEC_PORT}
+      - SPLUNK_HEC_TLS=${SPLUNK_HEC_TLS}
+      - SPLUNK_HEC_INDEX=main
+    volumes:
+      - stoq-mailsink:/var/mailsink
+  splunk:
+    image: splunk/splunk:latest
+    hostname: splunk
+    ports:
+      - "8000:8000"
+      - "8088:8088"
+      - "8089:8089"
+    environment:
+      - SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
+      - SPLUNK_PASSWORD=${SPLUNK_PASSWORD}
+      - SPLUNK_START_ARGS=${SPLUNK_START_ARGS}
+      - SPLUNK_APPS_URL=${SPLUNK_APPS_URL}
+      - SPLUNKBASE_USERNAME=${SPLUNKBASE_USERNAME}
+      - SPLUNKBASE_PASSWORD=${SPLUNKBASE_PASSWORD}
+    volumes:
+      - splunk-etc:/opt/splunk/etc
+
+volumes:
+  stoq-mailsink:
+    external: false
+  splunk-etc:
+    external: true

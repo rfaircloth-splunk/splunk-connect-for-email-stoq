@@ -101,3 +101,4 @@ _deps
 *.app
 
 syslog-ng
+venv
