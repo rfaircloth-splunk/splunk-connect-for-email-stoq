@@ -106,13 +106,16 @@ class SplunkPlugin(ConnectorPlugin):
 
         payload.update({"event": f'{helpers.dumps(response, compactly=True)}\n' })
 
+        self.log.info('Sending to Splunk ' + self.splunk_host)
         self.hec.sendEvent(payload)
+        self.log.info('Sent to Splunk ' + self.splunk_host)
 
     def _connect(self):
         """
         Connect to an splunk instance
 
         """
+        self.log.info('Connecting to Splunk ' + self.splunk_host)
         if not self.hec:
             self.hec = http_event_collector(
                 self.splunk_token,
