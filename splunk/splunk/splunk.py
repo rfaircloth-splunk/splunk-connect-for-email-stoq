@@ -111,6 +111,7 @@ class SplunkPlugin(ConnectorPlugin):
         if not self.hec:
             self.hec = http_event_collector(
                 self.splunk_token,
-                self.splunk_host
+                self.splunk_host,
+                self.http_event_port
             )
             #self.hec.popNullFields = True
