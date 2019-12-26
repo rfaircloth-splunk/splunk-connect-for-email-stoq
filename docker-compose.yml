@@ -9,9 +9,7 @@
 version: "3.7"
 services:
   mail:
-    image: splunk-connect-for-email:latest
-    build:
-      context: .
+    image: docker.pkg.github.com/rfaircloth-splunk/splunk-connect-for-email-postfix/splunk-connect-for-email-postfix:latest
     links:
       - stoq
     hostname: postfix
@@ -23,21 +21,9 @@ services:
   stoq:
 
     hostname: stoq
-    build: stoq
+    build: .
 #When this is enabled test_common will fail
-    command: |
-      run -P dirmon -C splunk -s smtp --plugin-opts
-      dirmon:source_dir=/var/mailsink
-      filedir:results_dir=/home/stoq/results
-      smtp:always_dispatch=hash,yara,exif,xorsearch,symhash,pecarve,trid,peinfo,xdpcarve,tika,mraptor,ole,tnef,entropy,rtf,lief,decompress,mimetype
-      smtp:archive_attachments=False
-      smtp:extract_iocs=True
-      splunk:splunk_host=$SPLUNK_HEC_HOST
-      splunk:splunk_token=$SPLUNK_HEC_TOKEN
-      splunk:splunk_port=8088
-      splunk:splunk_index=$SPLUNK_HEC_INDEX
-      yara:worker_rules=/home/stoq/yara/yara.rules
-      yara:dispatch_rules=/home/stoq/yara/yara.rules
+    command:
     links:
       - splunk
     environment:

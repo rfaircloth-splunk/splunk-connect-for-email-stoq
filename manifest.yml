@@ -1,0 +1,95 @@
+# Example YAML configuration for the sidecar pattern.
+
+# It defines a main application container which writes
+# the current date to a log file every five seconds.
+
+# The sidecar container is nginx serving that log file.
+# (In practice, your sidecar is likely to be a log collection
+# container that uploads to external storage.)
+
+# To run:
+#   kubectl apply -f pod.yaml
+
+# Once the pod is running:
+#
+#   (Connect to the sidecar pod)
+#   kubectl exec pod-with-sidecar -c sidecar-container -it bash
+#
+#   (Install curl on the sidecar)
+#   apt-get update && apt-get install curl
+#
+#   (Access the log file via the sidecar)
+#   curl 'http://localhost:80/app.txt'
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: splunk-connect-email
+spec:
+  # Create a volume called 'shared-logs' that the
+  # app and sidecar share.
+  volumes:
+  - name: shared-mail
+    emptyDir: {}
+
+  # In the sidecar pattern, there is a main application
+  # container and a sidecar container.
+  imagePullSecrets:
+  - name: regcred
+  containers:
+  # Main application container
+  - name: splunk-connect-email-postfix
+    # Simple application: write the current date
+    # to the log file every five seconds
+    image: docker.pkg.github.com/rfaircloth-splunk/splunk-connect-for-email-postfix/splunk-connect-for-email-postfix:latest
+    ports:
+      - containerPort: 25
+      - containerPort: 587
+    env:
+      - name: SERVER_HOSTNAME
+        value: stoq.spl.guru
+
+    # Mount the pod's shared log file into the app
+    # container. The app writes logs here.
+    volumeMounts:
+    - name: shared-mail
+      mountPath: /var/mailsink
+
+  # Sidecar container
+  - name: splunk-connect-email-stoq
+    # Simple sidecar: display log files using nginx.
+    # In reality, this sidecar would be a custom image
+    # that uploads logs to a third-party or storage service.
+    image: docker.pkg.github.com/rfaircloth-splunk/splunk-connect-for-email-stoq/splunk-connect-for-email-stoq:latest
+    env:
+      - name: SPLUNK_HEC_HOST
+        value: inputs-hec.kops.spl.guru
+      - name: SPLUNK_HEC_TOKEN
+        value: 02450979-d363-4e6c-b6c9-796d8b546a6e
+      - name: SPLUNK_HEC_INDEX
+        value: main
+
+    args: ["run",
+           "-P","dirmon",
+           "-C","splunk",
+           "-s","smtp",
+           "--plugin-opts",
+           "dirmon:source_dir=/var/mailsink",
+           "filedir:results_dir=/home/stoq/results",
+           "smtp:always_dispatch=hash,yara,exif,xorsearch,symhash,pecarve,trid,peinfo,xdpcarve,tika,mraptor,ole,tnef,entropy,rtf,lief,decompress,mimetype",
+           "smtp:archive_attachments=False",
+           "smtp:extract_iocs=True",
+           "splunk:splunk_host=$SPLUNK_HEC_HOST",
+           "splunk:splunk_token=$SPLUNK_HEC_TOKEN",
+           "splunk:splunk_port=8088",
+           "splunk:splunk_index=$SPLUNK_HEC_INDEX",
+           "yara:worker_rules=/home/stoq/yara/yara.rules",
+           "yara:dispatch_rules=/home/stoq/yara/yara.rules"
+    ]
+
+    # Mount the pod's shared log file into the sidecar
+    # container. In this case, nginx will serve the files
+    # in this directory.
+    volumeMounts:
+    - name: shared-mail
+      mountPath: /var/mailsink # nginx-specific mount path
