@@ -50,6 +50,11 @@ class SplunkPlugin(ConnectorPlugin):
         elif config.has_option('options', 'splunk_host'):
             self.splunk_host = config.get('options', 'splunk_host')
 
+        if plugin_opts and 'splunk_port' in plugin_opts:
+            self.splunk_port = plugin_opts['splunk_port']
+        elif config.has_option('options', 'splunk_port'):
+            self.splunk_port = config.get('options', 'splunk_port')
+
         if plugin_opts and 'splunk_tls' in plugin_opts:
             self.splunk_tls = plugin_opts['splunk_tls']
         elif config.has_option('options', 'splunk_tls'):
@@ -112,6 +117,6 @@ class SplunkPlugin(ConnectorPlugin):
             self.hec = http_event_collector(
                 self.splunk_token,
                 self.splunk_host,
-                self.http_event_port
+                http_event_port=self.splunk_port
             )
             #self.hec.popNullFields = True
